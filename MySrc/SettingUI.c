@@ -49,17 +49,7 @@ void SettingUI_dis(void)
 	Y=20;
 	printf("%d", count);
 	
-	TimeSet=
-{
-	1,
-	50,
-	30,
-	TIMESETTING,
-	0,
-	ItemGetFocus,
-	ItemLostFocus,
-	TimeSetButHandle		
-};
+
 
 }
 
