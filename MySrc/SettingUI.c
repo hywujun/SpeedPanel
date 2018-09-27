@@ -10,7 +10,7 @@ void SettingUI_loop(void);
 void SettingUI_exit(void);
 
 /*********************************************/
-static char *TIMESETTING="DATA TIME SETTING";
+char TIMESETTING[]="DATA TIME SETTING";
 void ItemGetFocus(void);
 void ItemLostFocus(void);
 void TimeSetButHandle(void);
@@ -48,6 +48,19 @@ void SettingUI_dis(void)
 	X=20;
 	Y=20;
 	printf("%d", count);
+	
+	TimeSet=
+{
+	1,
+	50,
+	30,
+	TIMESETTING,
+	0,
+	ItemGetFocus,
+	ItemLostFocus,
+	TimeSetButHandle		
+};
+
 }
 
 void SettingUI_loop(void)
