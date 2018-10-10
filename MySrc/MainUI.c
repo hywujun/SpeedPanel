@@ -5,6 +5,7 @@
 #include "UI.h"
 #include "18B20.h"
 #include "page.h"
+#include "RotaryEncoder.h"
 
 //指南针
 #define CAMX 42
@@ -31,6 +32,8 @@ void MainUI_dis(void);
 void MainUI_loop(void);
 void MainUI_exit(void);
 
+extern PageTypeDef SettingUi;
+
 PageTypeDef PageMainUi=
 {
 	1,
@@ -43,9 +46,11 @@ PageTypeDef PageMainUi=
 
 extern uint8_t UI;		//当前显示界面
 extern uint8_t COMP_state;		//磁力计状态
-extern float coe;						//指南针较正系数
 extern I2C_HandleTypeDef hi2c1;
 extern RTC_HandleTypeDef hrtc;
+extern uint8_t BUTTON;	//当前按下的按键
+extern PageTypeDef *CurrentPage;
+
 
 RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
@@ -54,6 +59,7 @@ void Display_speed(void);  //速度值在Speed.c文件中计算
 float Voltage=0.0;
 float Current=0.0;
 
+uint8_t B20_err;
 
 
 __IO uint8_t SEC_INT=0;    //秒中断，sys_tick中断1000次，秒中断置1
@@ -87,14 +93,8 @@ void MainUI_dis(void)
 	Y=0;
 	
 	//初始化18B20
-	DS18B20_Init(&B20, GPIOB, GPIO_PIN_12);
-	DS18B20_Get_Temp(&B20);
-	//显示温度
-//	ST7529_Dispic(WEN, TEM_X, TEM_Y, 12, 12);
-//	ST7529_Dispic(DU, TEM_X+12, TEM_Y, 12, 12);
-//	X=TEM_X+24;
-//	Y=TEM_Y;
-//	printf(":");
+	B20_err=DS18B20_Init(&B20, GPIOB, GPIO_PIN_12);
+	
 	//显示摄氏度
 	ST7529_Dispic(Degree, TEM_X+63, TEM_Y, 12, 12);
 
@@ -141,11 +141,18 @@ void MainUI_loop(void)
 		
 		SEC_INT=0;
 /**更新温度**************************************/
-		tem=DS18B20_Get_Temp(&B20);
-	
 		X=TEM_X+30;
 		Y=TEM_Y;
-		printf("%.1f", ((float) tem)/10.0);	
+		if (B20_err==1)
+		{
+			tem=DS18B20_Get_Temp(&B20);
+			printf("%.1f", ((float) tem)/10.0);	
+		}
+		else
+		{
+			printf("ERR");
+			B20_err=DS18B20_Init(&B20, GPIOB, GPIO_PIN_12);
+		}
 	}
 	
 //如果0.5s时间到
@@ -154,9 +161,7 @@ void MainUI_loop(void)
 		//更新指南针
 		if (COMP_state==HAL_OK)
 		{
-			direction=Direction(&hi2c1, coe, -5);
-			//printf("%d", direction);	
-			//清屏，3+6+10
+			direction=Direction(&hi2c1, 5);
 			ST7529_Fill(CAMX-18, CAMX+18, CAMY, CAMY+19, 0XFF);
 			ST7529_Compass(CAMX-16, CAMY, direction*53/100);
 		}
@@ -167,10 +172,7 @@ void MainUI_loop(void)
 			Y=CAMY;
 			printf("ERR=%d", COMP_state);
 		}
-		X=12;
-		Y=60;
-		
-		printf("%3d", direction);
+
 		SPEED_REF_INT=0;
 	}
 	//更新速度
@@ -180,7 +182,7 @@ void MainUI_loop(void)
 	Display_speed();
 
 	
-	//更新电压电流
+	/*更新电压电流
 
 	FONT=ASCII9X12;
 	X=VOL_X+12;
@@ -192,19 +194,23 @@ void MainUI_loop(void)
 	X=VOL_X+12;
 	Y=VOL_Y+28;
 	printf("%04.0fW", Current*Voltage);
+	*/
 	
-	//指示灯闪烁 5.18关闭
-//	if (blink==0)
-//	{
-//		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-//		blink=1;
-//	}
-//	else
-//	{
-//		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-//		blink=0;
-//	}
 	
+	switch(BUTTON)
+	{
+		case TURN_CCW:
+			BUTTON=NO_ACT;
+		case TURN_CW:
+			BUTTON=NO_ACT;		
+		break;		
+		case PUSH_BUTTON:
+			SettingUi.PageInit();
+			CurrentPage=&SettingUi;
+			BUTTON=NO_ACT;
+		break;
+	}
+
 
 }
 

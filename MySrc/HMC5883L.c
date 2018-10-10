@@ -97,49 +97,51 @@ yx_coe=自检后Y轴校正系数，X/Y
 dec=磁偏角
 */
 
-uint16_t Direction(I2C_HandleTypeDef *I2C, float yx_coe, float dec)
+uint16_t Direction(I2C_HandleTypeDef *I2C, float dec)
 {
 	short x, y, z;
-	float rad, fx, fz, fy, xyz;
+	float rad, fx, fz, fy;
+	uint16_t degree;
 	uint16_t angle;
 	HMC5883L_Read(I2C, &x, &y, &z);
 	//x轴为前进方向
-	//因为倒放，X，Z轴方向相反
-	//x=-x;
-	//z=-z;
-	fx=(float) x;
+	
+//消除外磁场影响
+	x-=17;
+	y+=171;
+	z-=136;
+	
+//因为倒放，X，Z轴方向相反
+	x=-x;
+	z=-z;
+	
+	fx=(float) x;   
 	fz=(float) z;
 	fy=(float) y;
-	X=0;
-	Y=100;
-	
-	
-	//罗盘倾角校正，计算的是磁场方向与XZ轴平面间的夹角
-	xyz=sqrt(fx*fx+fz*fz+fy*fy);
-	printf("%.0f,%.0f,%.0f, %.0f", fx, fy, fz, xyz);
-//	if (x<0)
-//		xz=-xz;
-		//坐标变换。此设备安装平面与水平面的夹角约34度，将磁力计获得的原始坐标
-	//变换到水平坐标，相当于绕Y轴旋转34度。
-	//34度COS=0.829 SIN=0.559
-	if (fx>=0)
-		fx=0.829f*fx+0.559*fz;
-	else
-		fx=0.829f*fx-0.559*fz;
-	rad=atanf(fy/fx);
+
+	rad=atanf(fabs(fy)/fabs(fx));
+	degree=(uint16_t) (rad*360.0/6.28);  //转换为角度
 	X=12;
 	Y=72;
-	printf("%3.0f", rad*360.0/6.28);
+	printf("%3d, %3d", x, y);
 	
 	if ((x>0)&&(y>0))
-		angle=(uint16_t) (360-rad*360.0/6.28+dec);
+	{
+		if (degree<5)
+			angle=360+degree+dec;
+		else
+			angle=degree+dec;
+	}
+	
 	if ((x<=0)&&(y>0))
-		angle=(uint16_t) (180+rad*360.0/6.28+dec);
+		angle=180-degree+dec;
 	if ((x<=0)&&(y<=0))
-		angle=(uint16_t) (90-rad*360.0/6.28+dec);
+		angle=180+degree+dec;
 	if ((x>0)&&(y<=0))
-		angle=(uint16_t) (-rad*360.0/6.28+dec);
-
+		angle=360-degree+dec;
+	
+	if (angle>360)
+		angle-=360;
 	
 	return angle;
 

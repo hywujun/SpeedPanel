@@ -28,4 +28,5 @@ extern const char HZ_12X12[];
 extern const char DIG_40X60[];
 extern const char Degree[];
 extern const char ESWN[];
+extern const char Arrow6x7[];
 

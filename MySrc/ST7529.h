@@ -11,8 +11,8 @@ void ST7529_Fill(uint8_t x1, uint8_t x2, uint8_t y1, uint8_t y2, uint8_t pix);
 void ST7529_Putchar(uint8_t ch);
 void ST7529_Putpic(const char *pic, uint8_t x1, uint8_t y1, uint16_t W, uint8_t H); 
 void ST7529_Dispic(const char *pic, uint8_t x1, uint8_t y1, uint16_t wid, uint8_t hei);
+void ST7529_FillArea(uint8_t x1, uint8_t y1, uint16_t wid, uint8_t hei, uint8_t pix);
 
-
-extern uint8_t X, Y, FONT;
+extern uint8_t X, Y, FONT, REVERSE;
 
 

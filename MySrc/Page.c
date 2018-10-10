@@ -5,13 +5,9 @@
 extern uint8_t X, Y, FONT;
 
 
-void DrawMenu(MenuItemTypeDef *Menuitem, uint8_t ItemNo)
+void DrawMenu(MenuItemTypeDef *Menuitem)
 {
-	while (ItemNo)
-	{
 		X=Menuitem->PosX;
 		Y=Menuitem->PosY;
 		printf("%s", Menuitem->s);
-		ItemNo--;
-	}
 }

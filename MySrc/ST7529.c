@@ -54,10 +54,10 @@ void Write_CMD(uint8_t cmd)
 
 	WRITE_LOW;		//write pin low
 	GPIOA->ODR=tem;
-	Delay_us(1);	
+	//Delay_us(1);	
 	WRITE_HIGH;		//wirte pin high		
 	CS_HIGH;
-	Delay_us(1);
+	//Delay_us(1);
 }
 
 void Write_Data(uint8_t data)
@@ -73,10 +73,10 @@ void Write_Data(uint8_t data)
 	
 	WRITE_LOW;	
 	GPIOA->ODR=tem;
-	Delay_us(1);
+	//Delay_us(1);
 	WRITE_HIGH;	
 	CS_HIGH;
-	Delay_us(1);
+	//Delay_us(1);
 }
 
 uint8_t Read_Data(void)
@@ -347,4 +347,26 @@ void ST7529_DrawPix(uint8_t data)
 		p=0;
 	}
 	
+}
+/* 填充一个区域，以像素点为单位
+x1, y1=坐标
+wid, hei=区域宽，高
+pix=要填充的点
+*/
+void ST7529_FillArea(uint8_t x1, uint8_t y1, uint16_t wid, uint8_t hei, uint8_t pix)
+{
+	uint8_t col_s;  //起始列
+	uint8_t col_num;  //所占列数
+	uint8_t rem, tem;
+	
+	col_s=x1/3; 
+	rem=x1%3; //起始列除3的余数
+	tem=wid+rem; //如果余数
+	if (tem%3==0)
+		col_num=tem/3;
+	else
+		col_num=tem/3+1;
+	
+	ST7529_Fill(col_s, col_s+col_num, y1, y1+hei, pix);
+
 }

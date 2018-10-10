@@ -25,14 +25,13 @@ typedef struct
 	uint8_t PosY;
 	char *s;					//要显示的字符串
 	uint8_t language;		//显示中文还是英文
-	void (*GetFocus) (void); //获得焦点
-	void (*LostFocus) (void); //失去焦点
 	void (*HandleButton) (void);
 		
 } MenuItemTypeDef;
 
 void DrawMenu(MenuItemTypeDef *Menuitem);
-
+void ItemGetFocus(uint8_t itemno);
+void ItemLostFocus(uint8_t itemno);
 
 #endif
 

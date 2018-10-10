@@ -72,6 +72,8 @@ extern void Speed_Cal(void);	//速度计算，PB13中断时调用
 extern PageTypeDef PageMainUi;  //主显示页面
 extern PageTypeDef SettingUi;	//设置页面
 
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -106,8 +108,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin==GPIO_PIN_13)
 		Speed_Cal();
 	else
-		RE_call(GPIO_Pin);
-		
+		RE_call(GPIO_Pin);		
 }
 
 /* USER CODE END 0 */
@@ -152,8 +153,8 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 	
-	//CurrentPage=&PageMainUi;
-	CurrentPage=&SettingUi;
+	CurrentPage=&PageMainUi;
+	//CurrentPage=&SettingUi;
 	
 	
 	//为解决I2C死锁在BUSY STATE增加的代码	
@@ -166,18 +167,6 @@ int main(void)
 	ST7529_Init();	//初始化显示
 	
 	FONT=ASCII9X12;
-	X=6;
-	Y=6;
-
-	printf("Display Inited");
-	
-	HAL_Delay(500);
-	
-//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-//	HAL_Delay(500);
-//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-//	HAL_Delay(500);
-  
 	
 	//显示主界面
 	CurrentPage->PageInit();
@@ -480,7 +469,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : PB0 PB10 PB11 PB6 
                            PB7 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_6 
-                          |GPIO_PIN_7;
+                          |GPIO_PIN_7|GPIO_PIN_12;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;

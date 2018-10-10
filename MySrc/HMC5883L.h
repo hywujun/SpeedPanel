@@ -30,6 +30,6 @@ uint8_t HMC5883L_Init(I2C_HandleTypeDef *I2C, uint8_t MODE, uint8_t ODR, uint8_t
 uint8_t HMC5883L_Read(I2C_HandleTypeDef *I2C, short *x, short *y, short *z);
 void HMC5883L_Selftest(I2C_HandleTypeDef *I2C, short *result);
 void HMC5883L_Calibrate(I2C_HandleTypeDef *I2C, uint8_t GAIN);
-uint16_t Direction(I2C_HandleTypeDef *I2C, float yx_coe, float dec);
+uint16_t Direction(I2C_HandleTypeDef *I2C, float dec);
 
 

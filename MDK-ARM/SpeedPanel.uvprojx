@@ -425,6 +425,11 @@
               <FileType>1</FileType>
               <FilePath>..\MySrc\SettingUI.c</FilePath>
             </File>
+            <File>
+              <FileName>Page_timeset.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MySrc\Page_timeset.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -496,11 +496,11 @@ ARM Macro Assembler    Page 8
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=..\output\startup_stm32f103xb.d -o..\output\startup_stm32f103xb.o 
--I"H:\MyDIY\电动车速度面板\STM32 programe\MDK-ARM\RTE" -Id:\Keil_v5\ARM\PACK\AR
-M\CMSIS\4.5.0\CMSIS\Include -Id:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Devi
-ce\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 
-518" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=startu
-p_stm32f103xb.lst startup_stm32f103xb.s
+-IH:\MyDIY\SPEEDPANEL\SpeedPanel\MDK-ARM\RTE -Id:\Keil_v5\ARM\PACK\ARM\CMSIS\4.
+5.0\CMSIS\Include -Id:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+ --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 518" --pre
+define="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=startup_stm32f10
+3xb.lst startup_stm32f103xb.s
 
 
 
