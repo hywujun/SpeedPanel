@@ -75,8 +75,8 @@
       <flags>2</flags>
       <showCmd>3</showCmd>
       <MinPosition>
-        <xPos>-32000</xPos>
-        <yPos>-32000</yPos>
+        <xPos>-1</xPos>
+        <yPos>-1</yPos>
       </MinPosition>
       <MaxPosition>
         <xPos>-1</xPos>
@@ -2596,6 +2596,7 @@
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
+<<<<<<< HEAD
         <Name>..\MySrc\HMC5883L.c</Name>
         <ColumnNumber>12</ColumnNumber>
         <TopLine>1</TopLine>
@@ -2609,6 +2610,12 @@
         <ColumnNumber>29</ColumnNumber>
         <TopLine>10</TopLine>
         <CurrentLine>35</CurrentLine>
+=======
+        <Name>..\MySrc\SettingUI.c</Name>
+        <ColumnNumber>22</ColumnNumber>
+        <TopLine>49</TopLine>
+        <CurrentLine>50</CurrentLine>
+>>>>>>> 3cb44db0b109e2957ec6d2a57442fb0c08a0fd40
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

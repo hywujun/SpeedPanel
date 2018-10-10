@@ -96,12 +96,16 @@ void SettingUI_loop(void)
 {
 	Items[CurMenuID]->HandleButton();	
 	
+<<<<<<< HEAD
 }
 
 void SettingUI_exit(void)
 {
 	
 }
+=======
+
+>>>>>>> 3cb44db0b109e2957ec6d2a57442fb0c08a0fd40
 
 /*菜单处理函数*************************/
 void ItemGetFocus(uint8_t itemno)
